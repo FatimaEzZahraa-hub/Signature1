@@ -18,9 +18,9 @@
       font-family: 'Urbanist', sans-serif;
       background-color: #f8f9fa;
       color: #333;
-      padding-top: 80px; /* ou une valeur plus adaptée à la hauteur de ta navbar */
+      padding-top: 90px; /* ou une valeur plus adaptée à la hauteur de ta navbar */
     }
-
+    
     :root {
       --indigo: #4b0082;
     }
@@ -51,6 +51,20 @@
         background-color: var(--indigo);
         color: #fff;
     }
+            .btn-outline-light {
+        margin-left: 10px;
+        }
+
+        .btn-outline-light img {
+        width: 18px;
+        margin-right: 5px;
+        }
+
+        .btn-outline-light:hover {
+        background-color: #4b0082 !important;
+        color: white !important;
+        }
+
 
     .section-title {
       font-size: 2rem;
@@ -102,12 +116,18 @@
       <img src="{{ asset('images/EDUTRUSTSIGN (3).svg') }}" alt="Logo" width="30" height="30" class="me-2">
       EduTrustSign
     </a>
-    <div>
-      <a href="/login" class="btn btn-outline-light border-white fw-semibold px-4 py-2 rounded-pill me-2" style="transition: 0.3s;">
-        <i class="bi bi-box-arrow-in-right me-2"></i> Se connecter
+    <div class="btnh">
+      <a href="#Acceuil" class="btn btn-outline-light">
+        Acceuil
       </a>
-      <a href="#aide" class="btn btn-outline-light">
-      <img src="URL_DE_L_ICONE" alt="Icone">Connexion
+      <a href="#FAQ" class="btn btn-outline-light">
+        FAQ
+      </a>
+      <a href="#Contactez-nous" class="btn btn-outline-light" style="transition: 0.3s;">
+        Contactez-nous
+      </a>
+      <a href="/connexion" class="btn btn-outline-light">
+        <img src="{{ asset('images/connexion.png') }}" alt="Icone">Connexion
       </a>
       
     </div>
@@ -121,11 +141,12 @@
   </main>
 
   <!-- ✅ Footer -->
-  <footer class="py-4 bg-dark text-white text-center">
+  <footer class="py-4 text-white text-center" style="background-color: #4b0082;">
     <div class="container">
-      <p class="mb-0">© 2025 EduSign. Plateforme de signature numérique pour le secteur éducatif.</p>
+        <p class="mb-0">© 2025 EduSign. Plateforme de signature numérique pour le secteur éducatif.</p>
     </div>
-  </footer>
+    </footer>
+
 
 </body>
 </html>
