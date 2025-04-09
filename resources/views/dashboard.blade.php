@@ -172,10 +172,13 @@
     <div class="topbar">
       <div class="d-flex align-items-center">
         <div>
-          <h5 class="mb-1">Bonjour XXXXXXXXXXXX !</h5>
+          <h5 class="mb-1">Salut {{ Auth::user()->name }} !</h5>
         </div>
       </div>
-      <a href="#" class="user-circle">FZ</a>
+      <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
+        @include('profile')
+
+
     </div>
 
     <!-- Sections -->
