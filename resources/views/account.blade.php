@@ -2,7 +2,30 @@
 @extends('layouts.app') {{-- si tu utilises un layout global --}}
 
 @section('content')
-<div class="container-fluid" style="background-color: #f3f3f3; min-height: 100vh;">
+<style>
+    .navbar {
+        display: none !important;
+    }
+    body {
+        padding-top: 0 !important;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    main {
+        flex: 1;
+    }
+    .container-fluid {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .row {
+        flex: 1;
+    }
+</style>
+
+<div class="container-fluid" style="background-color: #f3f3f3;">
   <div class="row">
     {{-- Sidebar (on ne l'affiche pas ici) --}}
     {{-- @include('sidebar') --}}
@@ -26,15 +49,21 @@
           @csrf
           @method('PUT')
 
-          {{-- Photo --}}
-          <div class="mb-4">
-            <label class="form-label fw-bold text-muted">Photo</label><br>
-            <div class="position-relative d-inline-block">
-              <div class="rounded-circle d-flex justify-content-center align-items-center" style="width: 60px; height: 60px; background-color: #ccc; color: white; font-weight: bold;">
-                {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
-              </div>
-              <i class="bi bi-camera position-absolute bottom-0 end-0 bg-dark text-white rounded-circle p-1" style="font-size: 12px;" onclick="changePhoto()"></i> <!-- Icône de caméra -->
-            </div>
+          <!-- Suppression de la section de couleur -->
+          {{-- Avatar color --}}
+          <!-- <div class="mb-4">
+              <label class="form-label fw-bold text-muted">Couleur de l'avatar</label><br>
+              <input type="color" name="avatar_color" class="form-control-color"
+                    value="{{ Auth::user()->avatar_color ?? '#3d0072' }}"
+                    style="width: 60px; height: 40px; padding: 0; border: none; cursor: pointer;">
+          </div> -->
+
+          <!-- Avatar fixe -->
+          <div class="rounded-circle d-flex justify-content-center align-items-center mb-3"
+              style="width: 60px; height: 60px;
+                      background-color: #3d0072; /* Couleur fixe */
+                      color: white; font-weight: bold;">
+              {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
           </div>
 
           {{-- Champs utilisateur --}}
@@ -124,10 +153,4 @@
 }
 
 </script>
-<style>
-    #navbar {
-    display: none;
-    }
-
-</style>
 @endsection

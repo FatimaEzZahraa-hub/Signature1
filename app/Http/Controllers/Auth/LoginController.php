@@ -30,4 +30,11 @@ class LoginController extends Controller
     {
         return view('connexion');
     }
+    // app/Http/Controllers/Auth/LoginController.php
+
+    protected function redirectTo()
+    {
+        return '/dashboard';
+    }
+
 }

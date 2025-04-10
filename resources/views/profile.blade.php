@@ -23,9 +23,15 @@
         <a href="{{ route('account') }}" class="d-flex align-items-center text-decoration-none mb-4" style="color: #3d0072; font-weight: 500;">
           <i class="bi bi-person-fill me-3"></i> Mon compte
         </a>
-        <a href="{{ route('logout') }}" class="d-flex align-items-center text-decoration-none" style="color: #3d0072; font-weight: 500;">
-          <i class="bi bi-box-arrow-right me-3"></i> Se déconnecter
-        </a>
+        <form action="{{ route('logout') }}" method="POST" class="d-flex align-items-center text-decoration-none" style="color: #3d0072; font-weight: 500; padding: 0; margin: 0;">
+          @csrf
+          <button type="submit" style="background: none; border: none; color: inherit; font-weight: inherit; padding: 0;">
+            <i class="bi bi-box-arrow-right me-3"></i> Se déconnecter
+          </button>
+        </form>
+
+
+
       </div>
 
     </div>
