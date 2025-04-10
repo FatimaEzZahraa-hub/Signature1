@@ -93,11 +93,11 @@
       color: #fff;
     }
     /* Effet hover pour les blocs */
-    .p-4:hover {
-        background-color: #f0f0f0; /* Couleur de fond plus claire au survol */
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Ombre plus marquée */
-        transform: translateY(-5px); /* Légère montée du bloc */
-        transition: all 0.3s ease; /* Transition fluide */
+    .p-4:hover:not(.account-page *) {
+        background-color: #f0f0f0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
     }
 
     .p-4 h4 {
@@ -162,6 +162,52 @@
     top: 0;
   }
 
+  /* Hover effet doux sur boutons */
+  .btn:not(.account-page *) {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn:hover:not(.account-page *) {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .navbar-nav .nav-link {
+    color: var(--indigo);
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--indigo);
+    transition: 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* Bouton violet de base */
+  .btn-primary {
+    background-color: var(--indigo);
+    border-color: var(--indigo);
+    transition: all 0.3s ease;
+  }
+
+  /* Hover moutarde */
+  .btn-primary:hover {
+    background-color: #e1b300 !important;
+    border-color: #e1b300 !important;
+    color: var(--indigo) !important;
+  }
+
   </style>
 
 </head>
@@ -200,11 +246,13 @@
   </main>
 
   <!-- ✅ Footer -->
+  @unless(request()->is('documents*') || request()->is('dashboard') || request()->is('account'))
   <footer class="py-4 text-white text-center" style="background-color: #4b0082;">
     <div class="container">
         <p class="mb-0">© 2025 EduSign. Plateforme de signature numérique pour le secteur éducatif.</p>
     </div>
-    </footer>
+  </footer>
+  @endunless
 
     <!-- JavaScript pour animations -->
 <script>
@@ -268,50 +316,50 @@
   }
 
   /* Hover effet doux sur boutons */
-  .btn {
+  .btn:not(.account-page *) {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .btn:hover {
+  .btn:hover:not(.account-page *) {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
   }
+
   .navbar-nav .nav-link {
-  color: var(--indigo);
-  font-weight: 500;
-  position: relative;
-  transition: all 0.3s ease;
-}
+    color: var(--indigo);
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+  }
 
-.navbar-nav .nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--indigo);
-  transition: 0.3s ease;
-}
+  .navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--indigo);
+    transition: 0.3s ease;
+  }
 
-.navbar-nav .nav-link:hover::after {
-  width: 100%;
-}
+  .navbar-nav .nav-link:hover::after {
+    width: 100%;
+  }
 
+  /* Bouton violet de base */
+  .btn-primary {
+    background-color: var(--indigo);
+    border-color: var(--indigo);
+    transition: all 0.3s ease;
+  }
 
-/* Bouton violet de base */
-.btn-primary {
-  background-color: var(--indigo);
-  border-color: var(--indigo);
-  transition: all 0.3s ease;
-}
-
-/* Hover moutarde */
-.btn-primary:hover {
-  background-color: #e1b300 !important;
-  border-color: #e1b300 !important;
-  color: var(--indigo) !important;
-}
+  /* Hover moutarde */
+  .btn-primary:hover {
+    background-color: #e1b300 !important;
+    border-color: #e1b300 !important;
+    color: var(--indigo) !important;
+  }
 
 </style>
 

@@ -13,7 +13,7 @@
           {{ Auth::user()->name }}<br>
           {{ Auth::user()->email }}
         </div>
-        <button onclick="toggleProfileMenu()" class="btn btn-sm btn-light ms-auto" style="border-radius: 50%;">
+        <button onclick="toggleProfileMenu()" class="btn btn-sm btn-light ms-auto" style="border-radius: 50%; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center;">
           <i class="bi bi-x"></i>
         </button>
       </div>
@@ -25,13 +25,10 @@
         </a>
         <form action="{{ route('logout') }}" method="POST" class="d-flex align-items-center text-decoration-none" style="color: #3d0072; font-weight: 500; padding: 0; margin: 0;">
           @csrf
-          <button type="submit" style="background: none; border: none; color: inherit; font-weight: inherit; padding: 0;">
+          <button type="submit" style="background: none; border: none; color: #3d0072; font-weight: 500; padding: 0; width: 100%; text-align: left;">
             <i class="bi bi-box-arrow-right me-3"></i> Se déconnecter
           </button>
         </form>
-
-
-
       </div>
 
     </div>
