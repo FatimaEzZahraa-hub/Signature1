@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/DocumentController.php
 
 namespace App\Http\Controllers;
 
@@ -10,17 +9,40 @@ use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $q = $request->query('q');
-        $documents = Document::when($q, fn($qBuilder) =>
-            $qBuilder->where('name','like', "%{$q}%")
-        )->with('signataires')->latest()->paginate(10);
+        $query = Document::query();
+
+        // Recherche
+        if (request('q')) {
+            $query->where('titre', 'like', '%' . request('q') . '%');
+        }
+
+        // Filtre par statut
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
+
+        // Tri
+        switch (request('sort')) {
+            case 'date_asc':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'name_asc':
+                $query->orderBy('titre', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('titre', 'desc');
+                break;
+            case 'date_desc':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        $documents = $query->with('signataires')->paginate(10);
 
         return view('documents.index', compact('documents'));
-        
-        $documents = Document::all();
-        return view('dashboard', compact('documents'));
     }
 
     public function create()
@@ -40,7 +62,7 @@ class DocumentController extends Controller
             'signataires.*'=> 'exists:signataires,id',
         ]);
 
-        $path = $request->file('file')->store('documents');
+        $path = $request->file('file')->store('documents', 'public');
 
         $doc = Document::create([
             'titre'       => $request->titre,
@@ -58,7 +80,6 @@ class DocumentController extends Controller
                         ->with('success', 'Document créé.');
     }
 
-
     public function show(Document $document)
     {
         $document->load('signataires');
@@ -67,16 +88,41 @@ class DocumentController extends Controller
 
     public function download(Document $document)
     {
-        if (!Storage::exists($document->path)) {
+        if (!Storage::disk('public')->exists($document->fichier)) {
             return back()->with('error', 'Le fichier n\'existe pas.');
         }
 
-        return Storage::download($document->path, $document->name . $this->getFileExtension($document->path));
+        return Storage::disk('public')->download($document->fichier);
     }
 
-    private function getFileExtension($path)
+    public function voir(Document $document)
     {
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-        return $extension ? '.' . $extension : '';
+        if (!Storage::disk('public')->exists($document->fichier)) {
+            abort(404, 'Fichier introuvable');
+        }
+
+        $mimeType = Storage::disk('public')->mimeType($document->fichier);
+        $content = Storage::disk('public')->get($document->fichier);
+
+        return response($content, 200)
+            ->header('Content-Type', $mimeType)
+            ->header('Content-Disposition', 'inline; filename="'.basename($document->fichier).'"');
+    }
+
+    public function destroy(Document $document)
+    {
+        // Supprimer le fichier du stockage
+        if (Storage::disk('public')->exists($document->fichier)) {
+            Storage::disk('public')->delete($document->fichier);
+        }
+
+        // Supprimer les relations avec les signataires
+        $document->signataires()->detach();
+
+        // Supprimer le document de la base de données
+        $document->delete();
+
+        return redirect()->route('documents.index')
+                        ->with('success', 'Document supprimé avec succès.');
     }
 }

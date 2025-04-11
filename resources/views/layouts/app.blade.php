@@ -246,7 +246,7 @@
   </main>
 
   <!-- ✅ Footer -->
-  @unless(request()->is('documents*') || request()->is('dashboard') || request()->is('account'))
+  @unless(request()->is('documents*') || request()->is('account') || request()->is('signataires*') || request()->is('dashboard'))
   <footer class="py-4 text-white text-center" style="background-color: #4b0082;">
     <div class="container">
         <p class="mb-0">© 2025 EduSign. Plateforme de signature numérique pour le secteur éducatif.</p>

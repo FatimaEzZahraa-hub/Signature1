@@ -90,22 +90,22 @@
     </div>
 
     <div class="section">
-  <h5>Documents</h5>
-  @if($documents->count())
-    <ul class="list-group">
-      @foreach($documents as $doc)
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <span>{{ $doc->titre }}</span>
-          <a href="{{ asset('storage/documents/' . $doc->fichier) }}" target="_blank" class="btn btn-sm btn-primary">
-            <i class="bi bi-eye"></i> Voir
-          </a>
-        </li>
-      @endforeach
-    </ul>
-  @else
-    <div class="empty-card">Aucun document</div>
-  @endif
-</div>
+        <h5>Documents</h5>
+        @if($documents->count())
+            <ul class="list-group">
+                @foreach($documents as $doc)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ $doc->titre }}</span>
+                        <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-eye"></i> Voir
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <div class="empty-card">Aucun document</div>
+        @endif
+    </div>
 
 </div>
 @endsection
