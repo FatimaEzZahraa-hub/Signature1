@@ -116,7 +116,7 @@
             <tbody>
                 @forelse($documents as $doc)
                     <tr>
-                        <td>{{ $doc->name }}</td>
+                        <td>{{ $doc->titre }}</td>
                         <td>
                             <span class="badge 
                                 @if($doc->status=='signé') bg-success 
@@ -136,6 +136,10 @@
                         <td>
                             <a href="{{ route('documents.download', $doc) }}" class="me-2"><i class="bi bi-download"></i></a>
                             <a href="{{ route('documents.show', $doc) }}"><i class="bi bi-info-circle"></i></a>
+                            <a href="#" onclick="toggleDocumentViewer('{{ asset('storage/documents/'.$doc->fichier) }}', '{{ $doc->name }}')">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
                         </td>
                     </tr>
                 @empty

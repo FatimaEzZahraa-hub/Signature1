@@ -7,8 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class Document extends Model
 {
-    protected $fillable = ['name','path','status'];
-
+    protected $fillable = [
+        'titre',    // au lieu de name
+        'description',
+        'fichier',  // au lieu de path
+        'due_date',
+        'status',
+      ];
+    
     public function signataires()
     {
         return $this->belongsToMany(Signataire::class)

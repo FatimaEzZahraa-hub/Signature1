@@ -32,30 +32,32 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'         => 'required|string|max:255',
+            'titre'        => 'required|string|max:255',
+            'description'  => 'nullable|string',
             'file'         => 'required|file|mimes:pdf,doc,docx',
+            'due_date'     => 'nullable|date',
             'signataires'  => 'array',
             'signataires.*'=> 'exists:signataires,id',
         ]);
 
-        // stocke le fichier
         $path = $request->file('file')->store('documents');
 
-        // crée le document
         $doc = Document::create([
-            'name'   => $request->name,
-            'path'   => $path,
-            'status' => 'en attente',
+            'titre'       => $request->titre,
+            'description' => $request->description,
+            'fichier'     => $path,
+            'due_date'    => $request->due_date,
+            'status'      => 'Brouillon', // valeur par défaut
         ]);
 
-        // attache les signataires
         if ($request->filled('signataires')) {
             $doc->signataires()->attach($request->signataires);
         }
 
         return redirect()->route('documents.index')
-                         ->with('success','Document créé.');
+                        ->with('success', 'Document créé.');
     }
+
 
     public function show(Document $document)
     {
