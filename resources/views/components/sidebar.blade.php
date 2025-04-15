@@ -95,7 +95,9 @@
         <i class="bi bi-file-earmark"></i> <span>Documents</span>
     </a>
     <a href="#"><i class="bi bi-journal-check"></i> <span>Parapheur</span></a>
-    <a href="#"><i class="bi bi-inbox"></i> <span>Inbox</span></a>
+    <a href="{{ route('inbox.index') }}" class="{{ request()->routeIs('inbox.*') ? 'active' : '' }}">
+        <i class="bi bi-inbox"></i> <span>Boîte de réception</span>
+    </a>
     <a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}">
         <i class="bi bi-person-lines-fill"></i> <span>Contacts</span>
     </a>
