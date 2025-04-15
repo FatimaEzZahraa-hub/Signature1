@@ -91,7 +91,7 @@
     <div class="topbar">
         <div class="d-flex align-items-center">
             <div>
-                <h5 class="mb-1">Salut {{ Auth::user()->name }} !</h5>
+                <h5 class="mb-1">Salut {{ Auth::user()->first_name }} {{ Auth::user()->last_name }} !</h5>
             </div>
         </div>
         <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
@@ -159,4 +159,6 @@
         @endif
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 @endsection

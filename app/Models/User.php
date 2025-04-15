@@ -51,6 +51,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getNameAttribute()
+    {
+        return trim($this->first_name . ' ' . $this->last_name);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
