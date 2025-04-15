@@ -1,165 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .navbar {
-        display: none !important;
-    }
-    body {
-        padding-top: 0 !important;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
-    main {
-        flex: 1;
-    }
-    footer {
-        display: none !important;
-    }
-    .inbox-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .inbox-tabs {
-        display: flex;
-        gap: 20px;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 20px;
-    }
-    .inbox-tab {
-        padding: 10px 0;
-        color: #666;
-        text-decoration: none;
-        position: relative;
-        font-weight: 500;
-    }
-    .inbox-tab.active {
-        color: #3d0072;
-    }
-    .inbox-tab.active::after {
-        content: '';
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background-color: #3d0072;
-    }
-    .document-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .document-card {
-        background: white;
-        border-radius: 8px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .document-info {
-        flex: 1;
-    }
-    .document-title {
-        font-weight: 500;
-        color: #333;
-        margin-bottom: 5px;
-    }
-    .document-meta {
-        font-size: 0.9rem;
-        color: #666;
-    }
-    .document-status {
-        padding: 4px 12px;
-        border-radius: 15px;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-    .status-pending {
-        background-color: #fff3cd;
-        color: #856404;
-    }
-    .document-actions {
-        display: flex;
-        gap: 10px;
-    }
-    .btn-sign {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-    .btn-sign:hover {
-        background-color: #218838;
-        color: white;
-    }
-    .btn-reject {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-    .btn-reject:hover {
-        background-color: #c82333;
-        color: white;
-    }
-    .btn-view {
-        background-color: #17a2b8;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
-    .btn-view:hover {
-        background-color: #138496;
-        color: white;
-    }
-    .select-all {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 15px;
-    }
-    .select-all input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-    }
-</style>
+@push('styles')
+<link href="{{ asset('css/inbox.css') }}" rel="stylesheet">
+@endpush
 
 <x-sidebar />
 
 <div class="content" id="content">
     <div class="topbar">
         <h5 class="mb-0">Boîte de Réception</h5>
-        <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
-        @include('profile')
+        <div class="d-flex align-items-center gap-3">
+            <div class="column-selector">
+                <button class="column-selector-btn" onclick="toggleColumnSelector()">
+                    <i class="bi bi-columns-gap"></i>
+                    Colonnes
+                </button>
+                <div class="column-selector-dropdown" id="columnSelector">
+                    <div class="column-option">
+                        <input type="checkbox" id="colDate" checked>
+                        <label for="colDate">Date de réception</label>
+                    </div>
+                    <div class="column-option">
+                        <input type="checkbox" id="colSender" checked>
+                        <label for="colSender">Expéditeur</label>
+                    </div>
+                    <div class="column-option">
+                        <input type="checkbox" id="colStatus" checked>
+                        <label for="colStatus">Statut</label>
+                    </div>
+                    <div class="column-option">
+                        <input type="checkbox" id="colActions" checked>
+                        <label for="colActions">Actions</label>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
+            @include('profile')
+        </div>
     </div>
 
-    <div class="inbox-tabs">
-        <a href="#" class="inbox-tab active">Action requise</a>
-        <a href="#" class="inbox-tab">Complétées</a>
+    <div class="boite-de-reception-tabs">
+        <a href="#" class="boite-de-reception-tab active">Action requise</a>
+        <a href="#" class="boite-de-reception-tab">Complétées</a>
     </div>
 
     <div class="select-all">
@@ -170,7 +53,7 @@
     <div class="document-list">
         @foreach($documents as $document)
         <div class="document-card">
-            <input type="checkbox" class="document-checkbox" style="margin-right: 15px;">
+            <input type="checkbox" class="document-checkbox">
             
             <div class="document-info">
                 <div class="document-title">{{ $document->titre }}</div>
@@ -298,6 +181,31 @@ function rejectDocument(documentId) {
 function viewDocument(documentId) {
     window.open(`/documents/${documentId}/voir`, '_blank');
 }
+
+function toggleColumnSelector() {
+    const dropdown = document.getElementById('columnSelector');
+    dropdown.classList.toggle('show');
+}
+
+// Fermer le dropdown si on clique en dehors
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('columnSelector');
+    const button = document.querySelector('.column-selector-btn');
+    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+        dropdown.classList.remove('show');
+    }
+});
+
+// Gérer la visibilité des colonnes
+document.querySelectorAll('.column-option input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const columnId = this.id.replace('col', '').toLowerCase();
+        const columns = document.querySelectorAll(`.document-${columnId}`);
+        columns.forEach(col => {
+            col.style.display = this.checked ? '' : 'none';
+        });
+    });
+});
 </script>
 @endpush
 @endsection 
