@@ -50,14 +50,38 @@
         font-size: 16px;
     }
     .shortcut {
-        display: inline-block;
-        margin-right: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         color: #3d0072;
         text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        transition: background-color 0.2s;
+    }
+    .shortcut:hover {
+        background-color: rgba(61, 0, 114, 0.1);
+        color: #3d0072;
     }
     .shortcut i {
-        margin-right: 5px;
-        font-size: 1rem;
+        font-size: 1.1rem;
+    }
+    .btn-primary {
+        background-color: #3d0072;
+        border-color: #3d0072;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .btn-primary:hover {
+        background-color: #2b0052;
+        border-color: #2b0052;
+    }
+    .btn-primary i {
+        font-size: 1.1rem;
+    }
+    footer {
+        display: none !important;
     }
 </style>
 
@@ -72,12 +96,12 @@
         </div>
         <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
         @include('profile')
-      </div>
+    </div>
 
     <!-- Sections -->
     <div class="section">
         <a href="#" class="shortcut"><i class="bi bi-folder-plus"></i> Nouveau parapheur</a>
-        <a href="#" class="shortcut"><i class="bi bi-person-plus-fill"></i> Nouveau contact</a>
+        <a href="/contacts/create" class="shortcut"><i class="bi bi-person-plus-fill"></i> Nouveau contact</a>
     </div>
     <div class="section">
         <h5>Parapheurs</h5>
@@ -86,7 +110,30 @@
 
     <div class="section">
         <h5>Contacts</h5>
-        <div class="empty-card">Aucun contact</div>
+        @if($contacts && $contacts->count())
+            <ul class="list-group">
+                @foreach($contacts as $contact)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ $contact->name }}</span>
+                        <div>
+                            <span class="text-muted me-3">{{ $contact->email }}</span>
+                            <a href="/contacts/{{ $contact->id }}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i> Voir
+                            </a>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="text-end mt-3">
+                <a href="{{ route('contacts.index') }}" class="btn btn-link text-decoration-none">
+                    Voir tous les contacts <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        @else
+            <div class="empty-card">
+                <p class="mb-3">Aucun contact</p>
+            </div>
+        @endif
     </div>
 
     <div class="section">
@@ -102,10 +149,14 @@
                     </li>
                 @endforeach
             </ul>
+            <div class="text-end mt-3">
+                <a href="{{ route('documents.index') }}" class="btn btn-link text-decoration-none">
+                    Voir tous les contacts <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         @else
             <div class="empty-card">Aucun document</div>
         @endif
     </div>
-
 </div>
 @endsection

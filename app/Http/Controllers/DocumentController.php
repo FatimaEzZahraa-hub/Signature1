@@ -13,10 +13,13 @@ class DocumentController extends Controller
     {
         $query = Document::query();
 
+        // On filtre toujours par l’utilisateur connecté
+        $query->where('user_id', auth()->id());
+
         // Recherche
         if (request('q')) {
-            $query->where('titre', 'like', '%' . request('q') . '%');
-        }
+            $query->where('titre', 'like', request('q') . '%');
+        }        
 
         // Filtre par statut
         if (request('status')) {
@@ -45,6 +48,7 @@ class DocumentController extends Controller
         return view('documents.index', compact('documents'));
     }
 
+
     public function create()
     {
         $signataires = Signataire::all();
@@ -69,8 +73,9 @@ class DocumentController extends Controller
             'description' => $request->description,
             'fichier'     => $path,
             'due_date'    => $request->due_date,
-            'status'      => 'Brouillon', // valeur par défaut
-        ]);
+            'status'      => 'Brouillon',
+            'user_id'     => auth()->id(), // Association à l'utilisateur connecté
+        ]);        
 
         if ($request->filled('signataires')) {
             $doc->signataires()->attach($request->signataires);
@@ -82,6 +87,11 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
+        // Vérifier que le document appartient bien à l'utilisateur connecté
+        if ($document->user_id !== auth()->id()) {
+            abort(403, 'Accès non autorisé.');
+        }
+
         $document->load('signataires');
         return view('documents.show', compact('document'));
     }

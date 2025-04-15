@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Signataire extends Model
 {
-    protected $fillable = ['name','email'];
+    protected $fillable = [
+        'name',
+        'email',
+        'telephone'
+    ];
 
     public function documents()
     {
