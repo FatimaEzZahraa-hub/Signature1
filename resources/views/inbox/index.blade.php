@@ -3,6 +3,76 @@
 @section('content')
 @push('styles')
 <link href="{{ asset('css/inbox.css') }}" rel="stylesheet">
+<style>
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+    .user-circle {
+        background-color: #3d0072;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .column-selector {
+        position: relative;
+        display: inline-block;
+    }
+    .column-selector-btn {
+        background-color: #3d0072;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+    }
+    .column-selector-btn:hover {
+        background-color: #2b0052;
+    }
+    .column-selector-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 10px;
+        min-width: 200px;
+        z-index: 1000;
+        display: none;
+    }
+    .column-selector-dropdown.show {
+        display: block;
+    }
+    .column-option {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .column-option:hover {
+        background-color: #f8f9fa;
+    }
+    .column-option input[type="checkbox"] {
+        margin-right: 8px;
+    }
+</style>
 @endpush
 
 <x-sidebar />
@@ -10,34 +80,8 @@
 <div class="content" id="content">
     <div class="topbar">
         <h5 class="mb-0">Boîte de Réception</h5>
-        <div class="d-flex align-items-center gap-3">
-            <div class="column-selector">
-                <button class="column-selector-btn" onclick="toggleColumnSelector()">
-                    <i class="bi bi-columns-gap"></i>
-                    Colonnes
-                </button>
-                <div class="column-selector-dropdown" id="columnSelector">
-                    <div class="column-option">
-                        <input type="checkbox" id="colDate" checked>
-                        <label for="colDate">Date de réception</label>
-                    </div>
-                    <div class="column-option">
-                        <input type="checkbox" id="colSender" checked>
-                        <label for="colSender">Expéditeur</label>
-                    </div>
-                    <div class="column-option">
-                        <input type="checkbox" id="colStatus" checked>
-                        <label for="colStatus">Statut</label>
-                    </div>
-                    <div class="column-option">
-                        <input type="checkbox" id="colActions" checked>
-                        <label for="colActions">Actions</label>
-                    </div>
-                </div>
-            </div>
-            <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
-            @include('profile')
-        </div>
+        <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
+        @include('profile')
     </div>
 
     <div class="boite-de-reception-tabs">

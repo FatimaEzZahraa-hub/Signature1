@@ -54,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/documents/{document}/reject', [InboxController::class, 'reject'])->name('documents.reject');
 });
 
+// Routes pour la gestion des utilisateurs par l'administrateur
+Route::middleware(['auth', 'role:administrateur'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserManagementController::class)->except(['edit', 'update']);
+});
+
 // Déconnexion
 Route::post('/logout', function () {
     Auth::logout();

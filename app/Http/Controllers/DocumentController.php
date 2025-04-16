@@ -13,7 +13,7 @@ class DocumentController extends Controller
     {
         $query = Document::query();
 
-        // On filtre toujours par l’utilisateur connecté
+        // On filtre toujours par l'utilisateur connecté
         $query->where('user_id', auth()->id());
 
         // Recherche
@@ -52,6 +52,12 @@ class DocumentController extends Controller
     public function create()
     {
         $signataires = Signataire::all();
+        
+        // Sauvegarder les données du formulaire si elles existent
+        if (session()->has('document_form_data')) {
+            session()->keep(['document_form_data']);
+        }
+        
         return view('documents.create', compact('signataires'));
     }
 
@@ -74,7 +80,7 @@ class DocumentController extends Controller
             'fichier'     => $path,
             'due_date'    => $request->due_date,
             'status'      => 'Brouillon',
-            'user_id'     => auth()->id(), // Association à l'utilisateur connecté
+            'user_id'     => auth()->id(),
         ]);        
 
         if ($request->filled('signataires')) {
@@ -134,5 +140,11 @@ class DocumentController extends Controller
 
         return redirect()->route('documents.index')
                         ->with('success', 'Document supprimé avec succès.');
+    }
+
+    public function saveFormData(Request $request)
+    {
+        session()->put('document_form_data', $request->all());
+        return response()->json(['success' => true]);
     }
 }

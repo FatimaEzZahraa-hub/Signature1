@@ -53,8 +53,10 @@
     }
     .action-buttons {
         display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
+        gap: 2px;
+    }
+    .action-buttons .btn-link {
+        padding: 0;
     }
     .table-responsive {
         overflow-x: auto;
@@ -232,11 +234,17 @@
                         </td>
                         <td>{{ $doc->created_at->format('d/m/Y') }}</td>
                         <td>
-                            <a href="{{ route('documents.download', $doc) }}" class="me-2"><i class="bi bi-download"></i></a>
-                            <a href="{{ route('documents.show', $doc) }}"><i class="bi bi-info-circle"></i></a>
-                            <a href="#" onclick="toggleDocumentViewer('{{ asset('storage/' . $doc->fichier) }}', '{{ $doc->name }}')" title="Voir">
-                                <i class="bi bi-eye"></i>
-                            </a>
+                            <div class="action-buttons">
+                                <a href="{{ route('documents.download', $doc) }}" class="btn btn-link text-primary" title="Télécharger">
+                                    <i class="bi bi-download"></i>
+                                </a>
+                                <a href="{{ route('documents.show', $doc) }}" class="btn btn-link text-info" title="Détails">
+                                    <i class="bi bi-info-circle"></i>
+                                </a>
+                                <a href="#" onclick="toggleDocumentViewer('{{ asset('storage/' . $doc->fichier) }}', '{{ $doc->titre }}')" class="btn btn-link text-success" title="Voir">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 @empty
