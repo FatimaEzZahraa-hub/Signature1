@@ -22,11 +22,26 @@
   
   <style>
     body {
-    font-family: 'Urbanist', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    padding-top: 60px; /* Ajuste à la hauteur exacte de ta navbar */
-  }
+      font-family: 'Urbanist', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      padding-top: 60px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      padding-bottom: 60px; /* Espace pour le footer */
+    }
+
+    footer {
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      padding: 20px 0;
+      margin-top: auto;
+    }
     
     :root {
       --indigo: #4b0082;
@@ -248,13 +263,20 @@
   </main>
 
   <!-- ✅ Footer -->
-  @unless(request()->is('documents*') || request()->is('account') || request()->is('signataires*') || request()->is('dashboard'))
-  <footer class="py-4 text-white text-center" style="background-color: #4b0082;">
+  <footer class="footer mt-auto py-3">
     <div class="container">
-        <p class="mb-0">© 2025 EduSign. Plateforme de signature numérique pour le secteur éducatif.</p>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="mb-0">&copy; {{ date('Y') }} EduTrustSign. Tous droits réservés.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="#" class="text-decoration-none me-3">Mentions légales</a>
+          <a href="#" class="text-decoration-none me-3">Politique de confidentialité</a>
+          <a href="#" class="text-decoration-none">Contact</a>
+        </div>
+      </div>
     </div>
   </footer>
-  @endunless
 
     <!-- JavaScript pour animations -->
 <script>

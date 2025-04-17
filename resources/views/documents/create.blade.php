@@ -170,8 +170,8 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <small class="form-text text-muted">
-                                Si votre signataire n’apparaît pas, 
-                                <a href="{{ route('signataires.create') }}">cliquez ici</a> pour l’ajouter.
+                                Si votre signataire n'apparaît pas, 
+                                <a href="{{ route('signataires.create') }}">cliquez ici</a> pour l'ajouter.
                             </small>
                         @endif
                     </div>
@@ -185,7 +185,6 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
