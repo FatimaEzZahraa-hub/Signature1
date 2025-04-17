@@ -240,9 +240,10 @@
                 <a href="{{ route('parapheur.show', $p) }}" class="text-decoration-none">
                     <i class="bi bi-eye-fill view-icon"></i>
                 </a>
-                <form action="{{ route('parapheur.destroy', $p) }}" method="POST" class="d-inline">
-                    @csrf @method('DELETE')
-                    <button type="button" class="delete-btn" onclick="showDeleteConfirmation({{ $p->id }})">
+                <form action="{{ route('parapheur.destroy', $p) }}" method="POST" class="d-inline delete-form">
+                    @csrf 
+                    @method('DELETE')
+                    <button type="button" class="delete-btn" onclick="showDeleteConfirmation({{ $p->id }}, this.closest('form'))">
                         <i class="bi bi-trash-fill delete-icon"></i>
                     </button>
                 </form>
@@ -275,10 +276,10 @@
 </div>
 
 <script>
-let currentParapheurId = null;
+let currentForm = null;
 
-function showDeleteConfirmation(id) {
-    currentParapheurId = id;
+function showDeleteConfirmation(id, form) {
+    currentForm = form;
     const modal = document.getElementById('deleteConfirmModal');
     const backdrop = document.getElementById('deleteModalBackdrop');
     modal.style.display = 'block';
@@ -290,16 +291,13 @@ function hideDeleteConfirmation() {
     const backdrop = document.getElementById('deleteModalBackdrop');
     modal.style.display = 'none';
     backdrop.style.display = 'none';
-    currentParapheurId = null;
+    currentForm = null;
 }
 
 function deleteParapheur() {
-    if (!currentParapheurId) return;
-    
-    // Trouver le formulaire de suppression correspondant
-    const form = document.querySelector(`form[action="/parapheur/${currentParapheurId}"]`);
-    if (form) {
-        form.submit();
+    if (currentForm) {
+        currentForm.submit();
+        hideDeleteConfirmation();
     }
 }
 
