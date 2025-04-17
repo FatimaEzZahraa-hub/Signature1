@@ -16,9 +16,4 @@ class Contact extends Model
         'email',
         'telephone'
     ];
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_signataire', 'signataire_id', 'user_id');
-    }
 } 

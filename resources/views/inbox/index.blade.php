@@ -112,15 +112,15 @@
             </div>
 
             <div class="document-actions">
-                <a href="#" class="btn-sign" onclick="showSignatureModal({{ $document->id }})">
+                <button type="button" class="btn-sign" data-bs-toggle="modal" data-bs-target="#signatureModal" onclick="setCurrentDocument({{ $document->id }})">
                     <i class="bi bi-pen"></i>
                     Signer
-                </a>
-                <a href="#" class="btn-reject" onclick="rejectDocument({{ $document->id }})">
+                </button>
+                <button type="button" class="btn-reject" onclick="rejectDocument({{ $document->id }})">
                     <i class="bi bi-x-circle"></i>
                     Refuser
-                </a>
-                <a href="#" class="btn-view" onclick="viewDocument({{ $document->id }})">
+                </button>
+                <a href="{{ route('documents.voir', $document) }}" class="btn-view" target="_blank">
                     <i class="bi bi-eye"></i>
                     Voir
                 </a>
@@ -132,14 +132,14 @@
 
 <!-- Modal de signature -->
 <div class="modal fade" id="signatureModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Signer le document</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div id="signaturePad"></div>
+                <div id="signaturePad" style="border: 1px solid #ddd; height: 300px;"></div>
                 <input type="hidden" id="documentId">
             </div>
             <div class="modal-footer">
@@ -162,6 +162,18 @@ document.addEventListener('DOMContentLoaded', function() {
         backgroundColor: 'rgb(255, 255, 255)'
     });
 
+    // Ajuster la taille du canvas
+    function resizeCanvas() {
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = canvas.offsetHeight * ratio;
+        canvas.getContext("2d").scale(ratio, ratio);
+        signaturePad.clear();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
     // Gérer la sélection de tous les documents
     document.getElementById('selectAll').addEventListener('change', function(e) {
         document.querySelectorAll('.document-checkbox').forEach(checkbox => {
@@ -170,10 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function showSignatureModal(documentId) {
+function setCurrentDocument(documentId) {
     currentDocumentId = documentId;
-    const modal = new bootstrap.Modal(document.getElementById('signatureModal'));
-    modal.show();
 }
 
 function clearSignature() {
@@ -200,7 +210,13 @@ function saveSignature() {
     .then(data => {
         if (data.success) {
             location.reload();
+        } else {
+            alert('Une erreur est survenue lors de la signature');
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Une erreur est survenue lors de la signature');
     });
 }
 
@@ -217,13 +233,15 @@ function rejectDocument(documentId) {
         .then(data => {
             if (data.success) {
                 location.reload();
+            } else {
+                alert('Une erreur est survenue lors du rejet du document');
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Une erreur est survenue lors du rejet du document');
         });
     }
-}
-
-function viewDocument(documentId) {
-    window.open(`/documents/${documentId}/voir`, '_blank');
 }
 
 function toggleColumnSelector() {

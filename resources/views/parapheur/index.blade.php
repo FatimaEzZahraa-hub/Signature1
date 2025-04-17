@@ -240,9 +240,6 @@
                 <a href="{{ route('parapheur.show', $p) }}" class="text-decoration-none">
                     <i class="bi bi-eye-fill view-icon"></i>
                 </a>
-                <a href="#" class="text-decoration-none">
-                    <i class="bi bi-pen-fill sign-icon"></i>
-                </a>
                 <form action="{{ route('parapheur.destroy', $p) }}" method="POST" class="d-inline">
                     @csrf @method('DELETE')
                     <button type="button" class="delete-btn" onclick="showDeleteConfirmation({{ $p->id }})">

@@ -4,8 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ $title ?? 'EduSign' }}</title>
-  
+  <title>{{ $title ?? 'EduTrustSign' }}</title>
+  <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/png">
+
   <!-- le script qui active le menu responsive de Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

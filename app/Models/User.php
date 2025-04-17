@@ -62,14 +62,4 @@ class User extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
-    public function parapheurs()
-    {
-        return $this->hasMany(Parapheur::class);
-    }
-
-    public function signataires()
-    {
-        return $this->belongsToMany(Contact::class, 'user_signataire', 'user_id', 'signataire_id');
-    }
-
 }
