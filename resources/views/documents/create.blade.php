@@ -5,6 +5,9 @@
     .navbar {
         display: none !important;
     }
+    footer {
+        display: none !important;
+    }
     body {
         padding-top: 0 !important;
         min-height: 100vh;

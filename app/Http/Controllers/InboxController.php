@@ -10,9 +10,9 @@ class InboxController extends Controller
 {
     public function index()
     {
-        $documents = Document::where('recipient_id', auth()->id())
-                           ->orderBy('created_at', 'desc')
-                           ->get();
+        $documents = Document::whereHas('signataires', function($query) {
+            $query->where('email', auth()->user()->email);
+        })->orderBy('created_at', 'desc')->get();
 
         return view('inbox.index', compact('documents'));
     }

@@ -24,18 +24,44 @@ class ParapheurController extends Controller
         $r->validate([ 
             'nom' => 'required', 
             'description' => 'nullable',
-            'existing_document_id' => 'required|exists:documents,id'
+            'existing_document_id' => 'nullable|exists:documents,id',
+            'new_document' => 'nullable|file|mimes:pdf,doc,docx|max:2048'
         ]);
+
+        // Vérifier qu'au moins un document est fourni
+        if (!$r->has('existing_document_id') && !$r->hasFile('new_document')) {
+            return back()->with('error', 'Vous devez sélectionner un document existant ou en ajouter un nouveau.');
+        }
 
         $parapheur = Parapheur::create($r->only('nom','description'));
         
-        // Ajouter le document obligatoire lors de la création
-        $parapheur->documents()->attach($r->existing_document_id, [
-            'status' => 'en_attente',
-            'updated_at' => now()
-        ]);
+        // Ajouter le document existant s'il est sélectionné
+        if ($r->has('existing_document_id') && $r->existing_document_id) {
+            $parapheur->documents()->attach($r->existing_document_id, [
+                'status' => 'en_attente',
+                'updated_at' => now()
+            ]);
+        }
+        
+        // Ajouter le nouveau document s'il est uploadé
+        if ($r->hasFile('new_document')) {
+            $file = $r->file('new_document');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('documents', $filename, 'public');
 
-        return redirect()->route('parapheur.index');
+            $document = Document::create([
+                'titre' => $file->getClientOriginalName(),
+                'fichier' => $filename,
+                'user_id' => auth()->id()
+            ]);
+
+            $parapheur->documents()->attach($document->id, [
+                'status' => 'en_attente',
+                'updated_at' => now()
+            ]);
+        }
+
+        return redirect()->route('parapheur.index')->with('success', 'Parapheur créé avec succès');
     }
 
     public function show(Parapheur $parapheur)
