@@ -9,13 +9,14 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // 👈 Ajout ici
             $table->string('titre');
             $table->text('description')->nullable();
             $table->string('fichier');
             $table->date('due_date')->nullable();
             $table->enum('status', ['en attente', 'signé', 'brouillon'])->default('brouillon');
             $table->timestamps();
-        });
+        });        
     }
 
     public function down()

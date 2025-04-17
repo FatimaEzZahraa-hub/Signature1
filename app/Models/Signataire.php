@@ -19,4 +19,12 @@ class Signataire extends Model
                     ->withPivot('signed_at')
                     ->withTimestamps();
     }
+
+
+    public function parapheurs()
+    {
+        return $this->belongsToMany(Parapheur::class)
+                    ->withPivot('status','signed_at')
+                    ->withTimestamps();
+    }
 }

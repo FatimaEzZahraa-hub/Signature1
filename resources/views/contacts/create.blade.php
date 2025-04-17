@@ -42,7 +42,7 @@
     .create-form {
         background: white;
         border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         padding: 2rem;
         max-width: 600px;
         margin: 0 auto;
@@ -50,6 +50,12 @@
     .form-label {
         color: #666;
         font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 0.5rem 0.75rem;
     }
     .form-control:focus {
         border-color: #3d0072;
@@ -58,6 +64,7 @@
     .btn-primary {
         background-color: #3d0072;
         border-color: #3d0072;
+        padding: 0.5rem 1.5rem;
     }
     .btn-primary:hover {
         background-color: #2b0052;
@@ -66,6 +73,7 @@
     .btn-secondary {
         background-color: #6c757d;
         border-color: #6c757d;
+        padding: 0.5rem 1.5rem;
     }
     .btn-secondary:hover {
         background-color: #5a6268;

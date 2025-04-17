@@ -7,6 +7,12 @@ use App\Models\Signataire;
 
 class SignataireController extends Controller
 {
+    public function index()
+    {
+        $signataires = Signataire::all();
+        return view('signataires.index', compact('signataires'));
+    }
+
     public function create()
     {
         return view('signataires.create');

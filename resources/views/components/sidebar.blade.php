@@ -94,7 +94,9 @@
     <a href="{{ route('documents.index') }}" class="{{ request()->routeIs('documents.*') ? 'active' : '' }}">
         <i class="bi bi-file-earmark"></i> <span>Documents</span>
     </a>
-    <a href="#"><i class="bi bi-journal-check"></i> <span>Parapheur</span></a>
+    <a href="{{ route('parapheur.index') }}" class="{{ request()->routeIs('parapheur.*') ? 'active' : '' }}">
+        <i class="bi bi-journal-check"></i> <span>Parapheur</span>
+    </a>
     <a href="{{ route('inbox.index') }}" class="{{ request()->routeIs('inbox.*') ? 'active' : '' }}">
         <i class="bi bi-inbox"></i> <span>Boîte de réception</span>
     </a>
@@ -103,6 +105,7 @@
     </a>
     <a href="#"><i class="bi bi-question-circle"></i> <span>Aide</span></a>
 </div>
+
 
 <script>
     function toggleSidebar() {

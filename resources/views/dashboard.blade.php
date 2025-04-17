@@ -100,12 +100,20 @@
 
     <!-- Sections -->
     <div class="section">
-        <a href="#" class="shortcut"><i class="bi bi-folder-plus"></i> Nouveau parapheur</a>
+        <a href="{{ route('parapheur.create') }}" class="shortcut"><i class="bi bi-folder-plus"></i> Nouveau parapheur</a>
         <a href="/contacts/create" class="shortcut"><i class="bi bi-person-plus-fill"></i> Nouveau contact</a>
     </div>
     <div class="section">
         <h5>Parapheurs</h5>
-        <div class="empty-card">Aucun parapheur</div>
+        @if($parapheurs->count())
+            <ul class="list-group">
+                @foreach($parapheurs as $p)
+                    <li class="list-group-item">{{ $p->nom }}</li>
+                @endforeach
+            </ul>
+        @else
+            <div class="empty-card">Aucun parapheur</div>
+        @endif
     </div>
 
     <div class="section">

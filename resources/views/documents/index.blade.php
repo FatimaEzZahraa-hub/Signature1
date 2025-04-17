@@ -116,19 +116,19 @@
 <x-sidebar />
 
 <div class="content" id="content">
-    <div class="topbar">
-        <h5 class="mb-1">Documents</h5>
-        <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
+  <div class="topbar">
+    <h5 class="mb-1">Documents</h5>
+    <a href="#" class="user-circle">{{ strtoupper(substr(Auth::user()->name, 0, 2)) }}</a>
         @include('profile')
-    </div>
+  </div>
 
-    <div class="section">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="section">
+    <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center gap-2">
-                <form class="d-flex" action="{{ route('documents.index') }}" method="GET">
+      <form class="d-flex" action="{{ route('documents.index') }}" method="GET">
                     <input class="form-control me-2" type="search" name="q" placeholder="Recherche par nom de document" value="{{ request('q') }}">
-                    <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
-                </form>
+        <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+      </form>
                 
                 <!-- Dropdown pour le filtre -->
                 <div class="dropdown">
@@ -195,45 +195,45 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <a href="{{ route('documents.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></a>
-        </div>
+      </div>
+      <a href="{{ route('documents.create') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i></a>
+    </div>
 
-        <table class="table table-hover bg-white rounded shadow-sm">
-            <thead>
-                <tr>
-                    <th>Nom du document</th>
-                    <th>Statut</th>
-                    <th>Signataires</th>
-                    <th>Créer le</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($documents as $doc)
-                    <tr>
+    <table class="table table-hover bg-white rounded shadow-sm">
+      <thead>
+        <tr>
+          <th>Nom du document</th>
+          <th>Statut</th>
+          <th>Signataires</th>
+          <th>Créer le</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($documents as $doc)
+          <tr>
                         <td>{{ $doc->titre }}</td>
-                        <td>
-                            <span class="badge 
-                                @if($doc->status=='signé') bg-success 
-                                @elseif($doc->status=='en attente') bg-warning 
-                                @else bg-secondary @endif">
-                                {{ ucfirst($doc->status) }}
-                            </span>
-                        </td>
-                        <td>
-                            @foreach($doc->signataires as $sig)
+            <td>
+              <span class="badge 
+                @if($doc->status=='signé') bg-success 
+                @elseif($doc->status=='en attente') bg-warning 
+                @else bg-secondary @endif">
+                {{ ucfirst($doc->status) }}
+              </span>
+            </td>
+            <td>
+              @foreach($doc->signataires as $sig)
                                 <span class="d-inline-block me-1" title="{{ $sig->name }} ({{ $sig->email }})">
-                                    <i class="bi bi-circle-fill text-info"></i>
+                  <i class="bi bi-circle-fill text-info"></i>
                                     {{ $sig->name }}
-                                </span>
-                            @endforeach
+                </span>
+              @endforeach
                             @if($doc->signataires->isEmpty())
                                 <span class="text-muted">Aucun signataire</span>
                             @endif
-                        </td>
-                        <td>{{ $doc->created_at->format('d/m/Y') }}</td>
-                        <td>
+            </td>
+            <td>{{ $doc->created_at->format('d/m/Y') }}</td>
+            <td>
                             <div class="action-buttons">
                                 <a href="{{ route('documents.download', $doc) }}" class="btn btn-link text-primary" title="Télécharger">
                                     <i class="bi bi-download"></i>
@@ -245,18 +245,18 @@
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            Aucun document
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="5" class="text-center py-5 text-muted">
+              Aucun document
+            </td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
 </div>
 <!-- MODALE de prévisualisation -->
 <div id="documentViewer" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
