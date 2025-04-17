@@ -83,6 +83,44 @@
     footer {
         display: none !important;
     }
+    .card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-body {
+        padding: 1rem;
+    }
+    .card-title {
+        color: #3d0072;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .card-text {
+        font-size: 0.8rem;
+    }
+    .btn-outline-primary {
+        color: #3d0072;
+        border-color: #3d0072;
+    }
+    .btn-outline-primary:hover {
+        background-color: #3d0072;
+        color: white;
+    }
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.35em 0.65em;
+    }
+    .btn-link {
+        color: #3d0072;
+    }
+    .btn-link:hover {
+        color: #2b0052;
+    }
 </style>
 
 <x-sidebar />
@@ -106,11 +144,30 @@
     <div class="section">
         <h5>Parapheurs</h5>
         @if($parapheurs->count())
-            <ul class="list-group">
-                @foreach($parapheurs as $p)
-                    <li class="list-group-item">{{ $p->nom }}</li>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 g-4">
+                @foreach($parapheurs->take(5) as $p)
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ $p->nom }}</h6>
+                                <p class="card-text small text-muted">
+                                    {{ $p->documents_count }} document(s)
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('parapheur.show', $p) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
+            <div class="text-end mt-3">
+                <a href="{{ route('parapheur.index') }}" class="btn btn-link text-decoration-none">
+                    Voir tous les parapheurs <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
         @else
             <div class="empty-card">Aucun parapheur</div>
         @endif
@@ -119,47 +176,60 @@
     <div class="section">
         <h5>Contacts</h5>
         @if($contacts && $contacts->count())
-            <ul class="list-group">
-                @foreach($contacts as $contact)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>{{ $contact->name }}</span>
-                        <div>
-                            <span class="text-muted me-3">{{ $contact->email }}</span>
-                            <a href="/contacts/{{ $contact->id }}" class="btn btn-sm btn-primary">
-                                <i class="bi bi-eye"></i> Voir
-                            </a>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 g-4">
+                @foreach($contacts->take(5) as $contact)
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ $contact->name }}</h6>
+                                <p class="card-text small text-muted">
+                                    {{ $contact->email }}
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="/contacts/{{ $contact->id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </li>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
             <div class="text-end mt-3">
                 <a href="{{ route('contacts.index') }}" class="btn btn-link text-decoration-none">
                     Voir tous les contacts <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         @else
-            <div class="empty-card">
-                <p class="mb-3">Aucun contact</p>
-            </div>
+            <div class="empty-card">Aucun contact</div>
         @endif
     </div>
 
     <div class="section">
         <h5>Documents</h5>
         @if($documents->count())
-            <ul class="list-group">
-                @foreach($documents as $doc)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>{{ $doc->titre }}</span>
-                        <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-primary">
-                            <i class="bi bi-eye"></i> Voir
-                        </a>
-                    </li>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 g-4">
+                @foreach($documents->take(5) as $doc)
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title">{{ $doc->titre }}</h6>
+                                <p class="card-text small text-muted">
+                                    {{ $doc->created_at->format('d/m/Y') }}
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('documents.show', $doc) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-            </ul>
+            </div>
             <div class="text-end mt-3">
                 <a href="{{ route('documents.index') }}" class="btn btn-link text-decoration-none">
-                    Voir tous les contacts <i class="bi bi-arrow-right"></i>
+                    Voir tous les documents <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         @else

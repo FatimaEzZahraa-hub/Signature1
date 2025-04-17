@@ -148,7 +148,7 @@
           @endif
         </p>
         <p><strong>Description :</strong> {{ $parapheur->description ?: '-' }}</p>
-        <a href="#" class="btn btn-primary">Modifier le Parapheur</a>
+        <a href="{{ route('parapheur.edit', $parapheur) }}" class="btn btn-primary">Modifier le Parapheur</a>
       </div>
     </div>
 

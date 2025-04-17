@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parapheurs', function (Blueprint $table) {
+        Schema::create('user_signataire', function (Blueprint $table) {
             $table->id();
-            $table->string('nom'); // tu peux adapter les champs selon tes besoins
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('signataire_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('parapheurs');
+        Schema::dropIfExists('user_signataire');
     }
-};
+}; 

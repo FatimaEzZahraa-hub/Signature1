@@ -80,6 +80,18 @@
     .parapheur-actions .delete-icon {
         color: #dc3545;
     }
+    .parapheur-actions .edit-icon {
+        color: #3d0072;
+    }
+    .parapheur-actions .edit-icon:hover {
+        color: #2b0052;
+    }
+    .parapheur-actions .sign-icon {
+        color: #28a745;
+    }
+    .parapheur-actions .sign-icon:hover {
+        color: #218838;
+    }
     .parapheur-actions i:hover {
         background-color: rgba(0, 0, 0, 0.05);
     }
@@ -87,15 +99,16 @@
         background-color: #3d0072;
         color: white !important;
         border: none;
-        padding: 8px 15px;
+        padding: 10px 20px;
         border-radius: 5px;
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
         margin-bottom: 20px;
         text-decoration: none;
         font-size: 0.9rem;
-        transition: background-color 0.2s ease;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .btn-add-parapheur i {
         font-size: 1.1rem;
@@ -103,6 +116,12 @@
     .btn-add-parapheur:hover {
         background-color: #2b0052;
         color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    .btn-add-parapheur:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .delete-btn {
         background: none;
@@ -218,10 +237,13 @@
                 @endif
             </div>
             <div class="parapheur-actions">
-                <a href="{{ route('parapheur.show',$p) }}" class="text-decoration-none">
+                <a href="{{ route('parapheur.show', $p) }}" class="text-decoration-none">
                     <i class="bi bi-eye-fill view-icon"></i>
                 </a>
-                <form action="{{ route('parapheur.destroy',$p) }}" method="POST" class="d-inline">
+                <a href="#" class="text-decoration-none">
+                    <i class="bi bi-pen-fill sign-icon"></i>
+                </a>
+                <form action="{{ route('parapheur.destroy', $p) }}" method="POST" class="d-inline">
                     @csrf @method('DELETE')
                     <button type="button" class="delete-btn" onclick="showDeleteConfirmation({{ $p->id }})">
                         <i class="bi bi-trash-fill delete-icon"></i>
@@ -277,34 +299,11 @@ function hideDeleteConfirmation() {
 function deleteParapheur() {
     if (!currentParapheurId) return;
     
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
-    fetch(`/parapheur/${currentParapheurId}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            const element = document.getElementById(`parapheur-${currentParapheurId}`);
-            if (element) {
-                element.remove();
-            }
-            hideDeleteConfirmation();
-            if (document.querySelectorAll('.parapheur-row').length === 0) {
-                location.reload();
-            }
-        } else {
-            throw new Error('Erreur lors de la suppression');
-        }
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-        hideDeleteConfirmation();
-    });
+    // Trouver le formulaire de suppression correspondant
+    const form = document.querySelector(`form[action="/parapheur/${currentParapheurId}"]`);
+    if (form) {
+        form.submit();
+    }
 }
 
 // Fermer le modal si on clique en dehors
